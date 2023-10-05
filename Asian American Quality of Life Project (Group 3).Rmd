@@ -64,28 +64,26 @@ test2 %>%
 
 # Data Analysis and Visualizations Hypothesis 2
 ```{R}
-# Rename the "English Speaking" column to "English_speaking"
-AAQ_clean <- AAQoL %>% rename(English_speaking = "English Speaking")
 
-# Select the "Income" and "English_speaking" columns, remove rows with missing values, and group by both columns
-IncomeBasedOnEnglish <- AAQ_clean %>% 
-  select(Income, English_speaking) %>% 
+# Select the "Income" and "English.Speaking" columns, remove rows with missing values, and group by both columns
+IncomeBasedOnEnglish <- AAQoL %>% 
+  select(Income, English.Speaking) %>% 
   na.omit() %>% 
-  group_by(Income, English_speaking)
+  group_by(Income, English.Speaking)
 
-# Define the levels for the "English_speaking" factor
+# Define the levels for the "English.Speaking" factor
 english_levels <- c("Not at all", "Not well", "Well", "Very well")
 
-# Create another dataset by swapping the order of columns and reordering "English_speaking" as a factor
-IncomeBasedOnEnglish01 <- AAQ_clean %>% 
-  select(English_speaking, Income) %>% 
+# Create another dataset by swapping the order of columns and reordering "English.Speaking" as a factor
+IncomeBasedOnEnglish01 <- AAQoL %>% 
+  select(English.Speaking, Income) %>% 
   na.omit() %>% 
-  group_by(English_speaking, Income) %>% 
-  mutate(English_speaking = factor(English_speaking, levels = english_levels)) %>% 
+  group_by(English.Speaking, Income) %>% 
+  mutate(English.Speaking = factor(English.Speaking, levels = english_levels)) %>% 
   summarize(n = n())  
 
 # Create a bar plot using ggplot
-ggplot(IncomeBasedOnEnglish01, aes(x = English_speaking, y = n)) +
+ggplot(IncomeBasedOnEnglish01, aes(x = English.Speaking, y = n)) +
   geom_bar(stat = "identity", 
            width = 0.7, 
            position = position_dodge(width = 0.8),
