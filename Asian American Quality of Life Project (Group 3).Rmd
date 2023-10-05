@@ -1,0 +1,61 @@
+---
+title: "Asian American Quality of Life Project"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+---
+
+# Links
+
+- [Dataset Source](https://data.austintexas.gov/dataset/Final-Report-of-the-Asian-American-Quality-of-Life/hc5t-p62z)
+
+# Explanation of Project
+
+Our project is evaluating the quality of life of Asian Americans and factors that contribute to that. Our data set will show why the quality of life may change based upon different variables and why it is significant.
+
+# Goals for Project
+
+Some goals of our project include why the quality of life of Asian Americans vary amongst different variables and why that may occur. This question can hopefully be answered by creating meaningful visualizations that show trends. 
+
+# Hypotheses
+
+Hypothesis 1:
+
+Marriage vs Quality of life for different ethnicities 
+Our first hypothesis is that when people become married, their quality of life will increase, and there will be a variance amongst the different types of Asian ethnicities. 
+
+Hypothesis 2:
+
+
+
+# Data Analysis and Visualizations
+```{R}
+# Import the dataset into R environment.
+library(tidyverse)
+library(readr)
+Final_Report_of_the_Asian_American_Quality_of_Life_AAQoL_ <- read_csv("~/final project/Final_Report_of_the_Asian_American_Quality_of_Life__AAQoL_.csv")
+
+# Load the dataset into a data frame named 'AAQoL'
+AAQoL <- data.frame(Final_Report_of_the_Asian_American_Quality_of_Life_AAQoL_)
+
+# Filter out rows with missing values in specific variables
+# We retain only rows where 'Quality.of.Life', 'Marital.Status', and 'Ethnicity' are not missing (NA)
+test2 <- AAQoL %>%
+  filter(!is.na(Quality.of.Life) & !is.na(Marital.Status) & !is.na(Ethnicity))
+
+# Create a bar plot using 'ggplot2'
+# - 'x' axis represents 'Marital.Status'
+# - 'fill' the bars based on 'Marital.Status'
+# - Use 'Quality.of.Life' for the 'y' values
+# - Calculate the mean of 'Quality.of.Life' for each category of 'Marital.Status'
+# - 'position = "dodge"' places bars side by side
+# - 'na.rm = TRUE' removes NA values from the calculations
+# - 'facet_wrap(~Ethnicity)' creates separate plots for each 'Ethnicity'
+# - Customize the appearance: Hide x-axis text
+test2 %>% 
+  ggplot(aes(x = Marital.Status, fill = Marital.Status)) +
+  geom_bar(aes(y = Quality.of.Life), stat = "summary", fun = mean, position = "dodge", na.rm = TRUE) +
+  facet_wrap(~Ethnicity) +
+  theme(axis.text.x = element_blank())
+```
