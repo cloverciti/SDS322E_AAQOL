@@ -61,3 +61,48 @@ test2 %>%
   facet_wrap(~Ethnicity) +
   theme(axis.text.x = element_blank())
 ```
+
+# Data Analysis and Visualizations Hypothesis 2
+```{R}
+# Rename the "English Speaking" column to "English_speaking"
+AAQ_clean <- AAQoL %>% rename(English_speaking = "English Speaking")
+
+# Select the "Income" and "English_speaking" columns, remove rows with missing values, and group by both columns
+IncomeBasedOnEnglish <- AAQ_clean %>% 
+  select(Income, English_speaking) %>% 
+  na.omit() %>% 
+  group_by(Income, English_speaking)
+
+# Define the levels for the "English_speaking" factor
+english_levels <- c("Not at all", "Not well", "Well", "Very well")
+
+# Create another dataset by swapping the order of columns and reordering "English_speaking" as a factor
+IncomeBasedOnEnglish01 <- AAQ_clean %>% 
+  select(English_speaking, Income) %>% 
+  na.omit() %>% 
+  group_by(English_speaking, Income) %>% 
+  mutate(English_speaking = factor(English_speaking, levels = english_levels)) %>% 
+  summarize(n = n())  
+
+# Create a bar plot using ggplot
+ggplot(IncomeBasedOnEnglish01, aes(x = English_speaking, y = n)) +
+  geom_bar(stat = "identity", 
+           width = 0.7, 
+           position = position_dodge(width = 0.8),
+           aes(fill = factor(Income))) +
+  
+  # Customize the legend and axis labels
+  scale_fill_discrete(name = "Income level") +
+  scale_alpha_discrete(name = "Account", range = c(1, 0.5)) + 
+  xlab("English level") +
+  ylab("Number of people") + 
+  
+  # Customize the plot appearance
+  theme_light() +
+  theme(axis.text.x = element_text(angle = 35, hjust = 1, vjust = 1, margin = margin(0.2, 0, 0.3, 0, "cm")), 
+        plot.title = element_text(hjust = 0.5),
+        plot.margin = margin(0.5, 0.5, 0, 0.5, "cm"),      
+        panel.grid.major.x = element_blank(),
+        legend.title = element_text(size = 10),
+        legend.text = element_text(size = 9))
+```
