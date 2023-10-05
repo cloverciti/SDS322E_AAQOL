@@ -32,7 +32,7 @@ Our second hypothesis is that the higher the income level of Asian Americans in 
 
 
 
-# Data Analysis and Visualizations
+# Data Analysis and Visualizations Hypothesis 1
 ```{R}
 # Import the dataset into R environment.
 library(tidyverse)
