@@ -6,28 +6,29 @@ output:
     toc_depth: 2
 ---
 
-#Commit test Orlando
-
 # Links
 
 - [Dataset Source](https://data.austintexas.gov/dataset/Final-Report-of-the-Asian-American-Quality-of-Life/hc5t-p62z)
 
-# Explanation of Project
+# Explanation of Project and Information about Data
 
-Our project is evaluating the quality of life of Asian Americans and factors that contribute to that. Our data set will show why the quality of life may change based upon different variables and why it is significant.
+This dataset that we are examining involves the fastest growing minority group in the United States, Asian Americans. Within this dataset, the broad term includes individuals having origins in the Far East, Southeast Asia, or the Indian subcontinent. The Final Report of the Asian American Quality of Life (AAQoL) comes from data provided by the city of Austin, TX, and includes 2,609 rows of data in which each row is an individual survey. There are 231 columns in the dataset, each column providing a different piece of information about the respondents from a question on the survey they were provided. Our project is evaluating the quality of life of Asian Americans and factors that contribute to that. Our data set will show why the quality of life may change based upon different variables and why it is significant.
 
 # Goals for Project
 
-Some goals of our project include why the quality of life of Asian Americans vary amongst different variables and why that may occur. This question can hopefully be answered by creating meaningful visualizations that show trends. 
+Some goals of our project include exploring quality of life in Asian American populations based on different variables such as marriage. We will also be using the other data provided from the surveys to determine whether or not income level and level of English proficiency are correlated. These can hopefully be answered by creating meaningful visualizations and analyzing the data coming from those visualizations. 
 
 # Hypotheses
 
 Hypothesis 1:
 
-Marriage vs Quality of life for different ethnicities 
+Marriage vs Quality of Life for Different Ethnicities 
 Our first hypothesis is that when people become married, their quality of life will increase, and there will be a variance amongst the different types of Asian ethnicities. 
 
 Hypothesis 2:
+
+Income Bracket vs Level of English Proficiency for Asian Americans in the United States
+Our second hypothesis is that the higher the income level of Asian Americans in the United States, the higher their English proficiency. 
 
 
 
