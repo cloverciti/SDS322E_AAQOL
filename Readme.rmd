@@ -44,8 +44,9 @@ AAQoL <- data.frame(Final_Report_of_the_Asian_American_Quality_of_Life_AAQoL_)
 
 # Filter out rows with missing values in specific variables
 # We retain only rows where 'Quality.of.Life', 'Marital.Status', and 'Ethnicity' are not missing (NA)
-test2 <- AAQoL %>%
-  filter(!is.na(Quality.of.Life) & !is.na(Marital.Status) & !is.na(Ethnicity))
+Filtered_AAQoL <- AAQoL %>%
+  filter(!is.na(Quality.of.Life) & !is.na(Marital.Status) & !is.na(Ethnicity)) %>%
+  filter(Marital.Status!= 'Other' & Ethnicity!= 'Other')
 
 # Create a bar plot using 'ggplot2'
 # - 'x' axis represents 'Marital.Status'
@@ -56,11 +57,14 @@ test2 <- AAQoL %>%
 # - 'na.rm = TRUE' removes NA values from the calculations
 # - 'facet_wrap(~Ethnicity)' creates separate plots for each 'Ethnicity'
 # - Customize the appearance: Hide x-axis text
-test2 %>% 
+Filtered_AAQoL %>% 
   ggplot(aes(x = Marital.Status, fill = Marital.Status)) +
   geom_bar(aes(y = Quality.of.Life), stat = "summary", fun = mean, position = "dodge", na.rm = TRUE) +
   facet_wrap(~Ethnicity) +
-  theme(axis.text.x = element_blank())
+  theme(axis.text.x = element_blank()) +
+  labs(x = 'Marital Status',
+       y = 'Quality of Life',
+       title = 'Relation between Marital Status and Quality for Different Asian American Ethnicities')
 ```
 
 # Data Analysis and Visualizations Hypothesis 2
