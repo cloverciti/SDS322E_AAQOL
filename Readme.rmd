@@ -33,9 +33,11 @@ Our second hypothesis is that the higher the income level of Asian Americans in 
 # Data Analysis and Visualizations Hypothesis 1
 ```{R}
 # Import the dataset into R environment.
+library(ggplot2)
+library(dplyr)
 library(tidyverse)
 library(readr)
-Final_Report_of_the_Asian_American_Quality_of_Life_AAQoL_ <- read_csv("~/final project/Final_Report_of_the_Asian_American_Quality_of_Life__AAQoL_.csv")
+Final_Report_of_the_Asian_American_Quality_of_Life_AAQoL_ <- read_csv("Final_Report_of_the_Asian_American_Quality_of_Life__AAQoL_.csv")
 
 # Load the dataset into a data frame named 'AAQoL'
 AAQoL <- data.frame(Final_Report_of_the_Asian_American_Quality_of_Life_AAQoL_)
