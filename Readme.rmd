@@ -1,9 +1,7 @@
 ---
 title: "Asian American Quality of Life Project"
 output:
-  html_document:
-    toc: true
-    toc_depth: 2
+  github_document:
 ---
 
 # Links
