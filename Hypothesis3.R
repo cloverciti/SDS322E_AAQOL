@@ -13,7 +13,6 @@ totalresp <- AAQoL %>% select(Income, Religion) %>%
 
 IncomeBasedOnReligionFinal <- merge(IncomeBasedOnReligion, totalresp, by = "Religion") %>% mutate(percentage = n / total_responses * 100)
 
-# Plot using ggplot
 ggplot(IncomeBasedOnReligionFinal, aes(x = Religion, y = percentage, fill = Income)) +
   geom_bar(stat = "identity") +
   labs(title = "Percentage of People in Each Religion Group by Income",
@@ -21,6 +20,20 @@ ggplot(IncomeBasedOnReligionFinal, aes(x = Religion, y = percentage, fill = Inco
        y = "Percentage") +
   scale_y_continuous(labels = scales::percent_format(scale = 1)) +
   theme_minimal()
+
+#V1 with labels
+
+ggplot(IncomeBasedOnReligionFinal, aes(x = Religion, y = percentage, fill = Income)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = sprintf("%.1f%%", percentage)),
+            position = position_stack(vjust = 0.5), # Adjust the position of labels
+            size = 3, color = "white") +  # You can customize size and color of the labels
+  labs(title = "Percentage of People in Each Religion Group by Income",
+       x = "Income",
+       y = "Percentage") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  theme_minimal()
+
 
 #V2
 
