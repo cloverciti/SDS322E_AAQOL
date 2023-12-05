@@ -1,0 +1,52 @@
+---
+title: "Asian American Quality of Life Project"
+output: html_document
+---
+
+
+# Links
+
+- [Dataset Source](https://data.austintexas.gov/dataset/Final-Report-of-the-Asian-American-Quality-of-Life/hc5t-p62z)
+
+# Hypotheses
+
+Hypothesis 1:
+Ethnicity vs Education
+
+
+# Data Analysis and Visualizations
+```{R}
+
+
+```
+
+```{r}
+
+# Import the dataset into R environment.
+library(tidyverse)
+library(readr)
+Final_Report_of_the_Asian_American_Quality_of_Life_AAQoL_ <- read_csv("~/final project/Final_Report_of_the_Asian_American_Quality_of_Life__AAQoL_.csv")
+
+# Load the dataset into a data frame named 'AAQoL'
+AAQoL <- data.frame(Final_Report_of_the_Asian_American_Quality_of_Life_AAQoL_)
+
+#Removing NAs
+test3 <- AAQoL %>%
+  filter(!is.na(Income) & !is.na(Education.Completed) & !is.na(Ethnicity))
+
+
+#Graphing education on y-axis, income bracket on x-axis, colored by ethnicity.
+new_colors <- c("orange", "red", "blue", "lightblue2", "maroon")
+
+test3 %>% filter(Ethnicity != "Other") %>%
+  ggplot(aes(x = Income, y = Education.Completed, fill = Ethnicity)) +
+  geom_bar(stat = "summary", fun = mean, position = "dodge", na.rm = TRUE) +
+  geom_errorbar(stat="summary", fun.data=mean_se, width=.5, position = position_dodge(width = 0.9))+
+  coord_flip() +
+  coord_cartesian(ylim = c(10, 18)) +
+  theme_economist_white() +
+  theme(axis.text.x = element_text(angle = 60, vjust = 0.5, hjust = .4, size = 9)) +
+  scale_fill_manual(values = new_colors) +
+labs(x = "Income Bracket", y = "Mean Education Completed")
+
+```
