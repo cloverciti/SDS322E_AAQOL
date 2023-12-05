@@ -36,6 +36,7 @@ test3 <- AAQoL %>%
 
 
 #Graphing education on y-axis, income bracket on x-axis, colored by ethnicity.
+
 new_colors <- c("orange", "red", "blue", "lightblue2", "maroon")
 
 test3 %>% filter(Ethnicity != "Other") %>%
@@ -50,3 +51,5 @@ test3 %>% filter(Ethnicity != "Other") %>%
 labs(x = "Income Bracket", y = "Mean Education Completed")
 
 ```
+
+
