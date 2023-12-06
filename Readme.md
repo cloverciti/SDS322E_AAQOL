@@ -23,158 +23,245 @@ different variables and why it is significant.
 
 # Goals for Project
 
-Some goals of our project include exploring quality of life in Asian
-American populations based on different variables such as marriage. We
-will also be using the other data provided from the surveys to determine
-whether or not income level and level of English proficiency are
-correlated. These can hopefully be answered by creating meaningful
-visualizations and analyzing the data coming from those visualizations.
+Some goals of our project include exploring what factors influence
+economic well-being in Asian American populations. We examine
+relationships between income and education, English proficiency and
+religion. Using visualizations and data modeling we would like to
+determine how these variables are related and if we can infer why see
+differences between groups.
 
 # Hypotheses
 
-Hypothesis 1:
-
-Marriage vs Quality of Life for Different Ethnicities Our first
-hypothesis is that when people become married, their quality of life
-will increase, and there will be a variance amongst the different types
-of Asian ethnicities.
-
 Hypothesis 2:
 
-Income Bracket vs Level of English Proficiency for Asian Americans in
-the United States Our second hypothesis is that the higher the income
-level of Asian Americans in the United States, the higher their English
-proficiency.
+Income Bracket v.s. English Proficiency We predict that the level of
+English proficiency in the Asian American population will be positively
+related with their income bracket.
 
-# Data Analysis and Visualizations Hypothesis 1
+Hypothesis 3:
 
-``` r
-# Import the dataset into R environment.
-library(ggplot2)
-library(dplyr)
-```
+Income Bracket v.s. Religion We predict that income brackets will vary
+based on religion and that individuals identifying as Hindu have the
+highest percentage of top earners on average.
 
-    ## 
-    ## Attaching package: 'dplyr'
+Hypothesis 4:
 
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
+Employment Status v.s. Sense of Belonging We predict that those who are
+employed full-time will have greater levels of belonging and those who
+are unemployed will have lower levels of belonging.
 
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
+Hypothesis 1:
+
+Income Bracket v.s. Education vs. Ethnicity We predict a variation in
+educational attainment amongst the different types of Asian ethnicities.
+We also expect to see a positive general relationship between education
+and income. \# Hypothesis 1 Visualization
+
+# Hypothesis 2 Visualization
 
 ``` r
 library(tidyverse)
+library(extrafont)
 ```
 
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-    ## ✔ lubridate 1.9.2     ✔ tibble    3.2.1
-    ## ✔ purrr     1.0.1     ✔ tidyr     1.3.0
-    ## ✔ readr     2.1.4
-
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+    ## Registering fonts with R
 
 ``` r
-library(readr)
-Final_Report_of_the_Asian_American_Quality_of_Life_AAQoL_ <- read_csv("Final_Report_of_the_Asian_American_Quality_of_Life__AAQoL_.csv")
+loadfonts()
+
+
+df_unfiltered <- read_csv("Final_Report_of_the_Asian_American_Quality_of_Life__AAQoL_.csv")
 ```
 
     ## New names:
-    ## Rows: 2609 Columns: 231
-    ## ── Column specification
-    ## ──────────────────────────────────────────────────────── Delimiter: "," chr
-    ## (190): Gender, Ethnicity, Marital Status, No One, Spouse, Children, Gran... dbl
-    ## (41): Survey ID, Age, Education Completed, Household Size, Grandparent,...
-    ## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-    ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
     ## • `Other` -> `Other...17`
     ## • `Other` -> `Other...89`
 
-``` r
-# Load the dataset into a data frame named 'AAQoL'
-AAQoL <- data.frame(Final_Report_of_the_Asian_American_Quality_of_Life_AAQoL_)
-
-# Filter out rows with missing values in specific variables
-# We retain only rows where 'Quality.of.Life', 'Marital.Status', and 'Ethnicity' are not missing (NA)
-Filtered_AAQoL <- AAQoL %>%
-  filter(!is.na(Quality.of.Life) & !is.na(Marital.Status) & !is.na(Ethnicity)) %>%
-  filter(Marital.Status!= 'Other' & Ethnicity!= 'Other')
-
-# Create a bar plot using 'ggplot2'
-# - 'x' axis represents 'Marital.Status'
-# - 'fill' the bars based on 'Marital.Status'
-# - Use 'Quality.of.Life' for the 'y' values
-# - Calculate the mean of 'Quality.of.Life' for each category of 'Marital.Status'
-# - 'position = "dodge"' places bars side by side
-# - 'na.rm = TRUE' removes NA values from the calculations
-# - 'facet_wrap(~Ethnicity)' creates separate plots for each 'Ethnicity'
-# - Customize the appearance: Hide x-axis text
-Filtered_AAQoL %>% 
-  ggplot(aes(x = Marital.Status, fill = Marital.Status)) +
-  geom_bar(aes(y = Quality.of.Life), stat = "summary", fun = mean, position = "dodge", na.rm = TRUE) +
-  facet_wrap(~Ethnicity) +
-  theme(axis.text.x = element_blank()) +
-  labs(x = 'Marital Status',
-       y = 'Quality of Life',
-       title = 'Relation between Marital Status and Quality for Different Asian American Ethnicities')
-```
-
-![](Readme_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
-
-# Data Analysis and Visualizations Hypothesis 2
+    ## Rows: 2609 Columns: 231
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (190): Gender, Ethnicity, Marital Status, No One, Spouse, Children, Gran...
+    ## dbl  (41): Survey ID, Age, Education Completed, Household Size, Grandparent,...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
-# Select the "Income" and "English.Speaking" columns, remove rows with missing values, and group by both columns
-IncomeBasedOnEnglish <- AAQoL %>% 
-  select(Income, English.Speaking) %>% 
-  na.omit() %>% 
-  group_by(Income, English.Speaking)
+# Data Wrangling, 2609 observations to 1620 observations
+df <- df_unfiltered %>%
+  filter(`US Born` == 'No') %>% # Filter for only immigrants, 256 rows removed.
+  filter(('Full Time Employment' == 'Employed full time')|('Part Time Employment' == 'Employed part time')|(Retired=='Retired')) %>%
+  filter(Income != '') %>% # Filter for only response with income information, 167 rows removed
+  filter('English Speaking' != '') %>% # Filter for only responses with proficiency information, 6 rows removed
+  select(1,Income,'Proficiency'='English Speaking',21:22,Retired,Age) %>% # Select only relevant variables
+  na.omit() # Omit all cells with N/A, 263 rows removed.
+  # TO-DO
+  # Ask TA About how to join the employment columns
 
-# Define the levels for the "English.Speaking" factor
-english_levels <- c("Not at all", "Not well", "Well", "Very well")
+# Redefining Proficiency as a ordinal variable
+df$Proficiency <- factor(df$Proficiency, ordered = TRUE,
+                         levels = c("Not at all", "Not well", "Well", "Very well"))
 
-# Create another dataset by swapping the order of columns and reordering "English.Speaking" as a factor
-IncomeBasedOnEnglish01 <- AAQoL %>% 
-  select(English.Speaking, Income) %>% 
-  na.omit() %>% 
-  group_by(English.Speaking, Income) %>% 
-  mutate(English.Speaking = factor(English.Speaking, levels = english_levels)) %>% 
-  summarize(n = n())  
+# Primary Visualization
+df %>% ggplot(aes(x = Income, fill = Proficiency)) +
+              geom_bar(position = 'fill') +
+              scale_fill_brewer(palette = 15) +
+              theme(axis.text.x  = element_text(angle = 15, hjust = 0.7, size = 8, family = 'serif'),
+                    axis.text.y  = element_text(angle = 90, hjust = 0.5, family = "serif"),
+                    axis.title   = element_text(family = "serif"),
+                    plot.title   = element_text(family = "serif", face = "bold"),
+                    legend.title = element_text(family = "serif", face = "bold"),
+                    legend.text  = element_text(family = "serif")) +
+              labs(title = "Levels of English Proficiency Within Different Income Brackets",
+                    x = "Income Brackets",
+                    y = "Percentage")
 ```
-
-    ## `summarise()` has grouped output by 'English.Speaking'. You can override using
-    ## the `.groups` argument.
-
-``` r
-# Create a bar plot using ggplot
-ggplot(IncomeBasedOnEnglish01, aes(x = English.Speaking, y = n)) +
-  geom_bar(stat = "identity", 
-           width = 0.7, 
-           position = position_dodge(width = 0.8),
-           aes(fill = factor(Income))) +
-  
-  # Customize the legend and axis labels
-  scale_fill_discrete(name = "Income level") +
-  scale_alpha_discrete(name = "Account", range = c(1, 0.5)) + 
-  xlab("English level") +
-  ylab("Number of people") + 
-  
-  # Customize the plot appearance
-  theme_light() +
-  theme(axis.text.x = element_text(angle = 35, hjust = 1, vjust = 1, margin = margin(0.2, 0, 0.3, 0, "cm")), 
-        plot.title = element_text(hjust = 0.5),
-        plot.margin = margin(0.5, 0.5, 0, 0.5, "cm"),      
-        panel.grid.major.x = element_blank(),
-        legend.title = element_text(size = 10),
-        legend.text = element_text(size = 9))
-```
-
-    ## Warning: Using alpha for a discrete variable is not advised.
 
 ![](Readme_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+``` r
+# Redefining Age and Income for the second visualization
+df <- df %>%
+  mutate(Income5 = recode(Income, "$10,000 - $19,999" = "$10,000 - $29,999",
+                                  "$20,000 - $29,999" = "$10,000 - $29,999",
+                                  "$30,000 - $39,999" = "$30,000 - $49,999",
+                                  "$40,000 - $49,999" = "$30,000 - $49,999",
+                                  "$50,000 - $59,999" = "$50,000 - $69,999",
+                                  "$60,000 - $69,999" = "$50,000 - $69,999")) %>% # Recode Income into 5 categories
+  mutate(AgeCat = case_when(Age >= 18 & Age <= 30 ~ "Age 18-30 (n=302)",
+                            Age >= 31 & Age <= 40 ~ "Age 31-40 (n=344)",
+                            Age >= 41 & Age <= 55 ~ "Age 41-55 (n=414)",
+                            Age >= 55 ~ "Age 55+ (n=403)",
+                            TRUE ~ NA_character_)) # Create a categorical variable for age
+
+# Make sure each each gorup is evenly sized
+sum(df$AgeCat == "Age 18-30 (n=302)")
+```
+
+    ## [1] 0
+
+``` r
+sum(df$AgeCat == "Age 31-40 (n=344)")
+```
+
+    ## [1] 1
+
+``` r
+sum(df$AgeCat == "Age 41-55 (n=414)")
+```
+
+    ## [1] 5
+
+``` r
+sum(df$AgeCat == "Age 55+ (n=403)")
+```
+
+    ## [1] 245
+
+# Hypothesis 3 Visualization
+
+``` r
+IncomeBasedOnReligion <- AAQoL %>% 
+  select(Income, Religion) %>% 
+  na.omit() %>% 
+  group_by(Income, Religion) %>% 
+  summarize(n = n())
+```
+
+    ## `summarise()` has grouped output by 'Income'. You can override using the
+    ## `.groups` argument.
+
+``` r
+totalresp <- AAQoL %>% select(Income, Religion) %>% 
+  na.omit() %>%
+  group_by(Religion) %>%
+  summarize(total_responses = n())
+
+IncomeBasedOnReligionFinal <- merge(IncomeBasedOnReligion, totalresp, by = "Religion") %>% mutate(percentage = n / total_responses * 100)
+
+ggplot(IncomeBasedOnReligionFinal, aes(x = Religion, y = percentage, fill = Income)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Percentage of People in Each Religion Group by Income",
+       x = "Income",
+       y = "Percentage") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  theme_minimal()
+```
+
+![](Readme_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+#V1 with labels
+
+ggplot(IncomeBasedOnReligionFinal, aes(x = Religion, y = percentage, fill = Income)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = sprintf("%.1f%%", percentage)),
+            position = position_stack(vjust = 0.5), # Adjust the position of labels
+            size = 3, color = "white") +  # You can customize size and color of the labels
+  labs(title = "Percentage of People in Each Religion Group by Income",
+       x = "Income",
+       y = "Percentage") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  theme_minimal()
+```
+
+![](Readme_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
+
+``` r
+#V2
+
+IncomeBasedOnReligionFinal1 <- IncomeBasedOnReligionFinal
+
+Income_level <- c("$70,000 and over", "$60,000 - $69,999", "$50,000 - $59,999", "$40,000 - $49,999", "$30,000 - $39,999", "$20,000 - $29,999", "$10,000 - $19,999", "$0 - $9,999")
+
+IncomeBasedOnReligionFinal1 <- IncomeBasedOnReligionFinal1 %>% mutate(Income = factor(Income, levels = Income_level))
+
+ggplot(IncomeBasedOnReligionFinal1, aes(x = Religion, y = percentage, fill = Income)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Percentage of People in Each Religion Group by Income",
+       x = "Income",
+       y = "Percentage") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  theme_minimal()
+```
+
+![](Readme_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
+
+\#Hypothesis 4 Visualization
+
+``` r
+BelongingAndFullTimeEmployment <- AAQoL %>% 
+  select(Belonging, Full.Time.Employment, Part.Time.Employment, Student, Homemaker) %>% 
+  na.omit() %>% mutate(Employment = if_else(Full.Time.Employment != "0", Full.Time.Employment, Part.Time.Employment)) %>% 
+  mutate(Employment = if_else(Employment != "0", Employment, Student))  %>%
+  mutate(Employment = if_else(Employment != "0", Employment, Homemaker)) %>%
+  select(-Full.Time.Employment, -Part.Time.Employment, -Student, -Homemaker) %>% group_by(Belonging, Employment) %>%
+  filter(Employment != 0)%>% 
+  summarize(n = n())
+```
+
+    ## `summarise()` has grouped output by 'Belonging'. You can override using the
+    ## `.groups` argument.
+
+``` r
+totalbelong <- BelongingAndFullTimeEmployment %>%
+  group_by(Belonging) %>%
+  summarize(total_belonging = sum(n))
+
+
+
+BelongingAndEmployment <- merge(BelongingAndFullTimeEmployment, totalbelong, by = "Belonging") %>% mutate(percentage = n / total_belonging * 100)
+
+# Plot using ggplot
+ggplot(BelongingAndEmployment, aes(x = Belonging, y = percentage, fill = Employment)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Level of belonging based on employment",
+       x = "Belonging",
+       y = "Percentage") + geom_text(aes(label = sprintf("%.1f%%", percentage)),
+                                     position = position_stack(vjust = 0.5), # Adjust the position of labels
+                                     size = 3, color = "white") + 
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  theme_minimal()
+```
+
+![](Readme_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
