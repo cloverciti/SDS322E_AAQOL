@@ -53,7 +53,7 @@ earners on average.
 
 ![](Readme_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
-\#Hypothesis 4: Employment Status v.s. Sense of Belonging
+# Hypothesis 4: Employment Status v.s. Sense of Belonging
 
 We predict that those who are employed full-time will have greater
 levels of belonging and those who are unemployed will have lower levels

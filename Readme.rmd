@@ -127,7 +127,7 @@ ggplot(IncomeBasedOnReligionFinal, aes(x = Religion, y = percentage, fill = Inco
 ```
 
 
-#Hypothesis 4: Employment Status v.s. Sense of Belonging
+# Hypothesis 4: Employment Status v.s. Sense of Belonging
 
 We predict that those who are employed full-time will have greater levels of belonging and those who are unemployed will have lower levels of belonging.
 
