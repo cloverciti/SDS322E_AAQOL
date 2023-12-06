@@ -1,6 +1,6 @@
 ---
 title: "Asian American Quality of Life Project"
-output: github_document, html_document
+output: github_document
 
 ---
 
