@@ -8,23 +8,17 @@ output:
 
 - [Dataset Source](https://data.austintexas.gov/dataset/Final-Report-of-the-Asian-American-Quality-of-Life/hc5t-p62z)
 
-# Explanation of Project and Information about Data
+# Project Overview
+In this project, we study the impact of cultural differences on economic well-being in the Asian American population within the Austin area. Our objective is to answer the question: do cultural factors affect economic outcomes such as income bracket, employment rate, or quality of life among Asian Americans? We aim to determine how these variables influence each other and to uncover the underlying mechanisms that contribute to economic disparities within the Asian American population. By examining factors, such as ethnicity, education, religion, and belonging, we aspire to discern their interconnectedness with the economic success indicators mentioned. 
 
-This dataset that we are examining involves the fastest growing minority group in the United States, Asian Americans. Within this dataset, the broad term includes individuals having origins in the Far East, Southeast Asia, or the Indian subcontinent. The Final Report of the Asian American Quality of Life (AAQoL) comes from data provided by the city of Austin, TX, and includes 2,609 rows of data in which each row is an individual survey. There are 231 columns in the dataset, each column providing a different piece of information about the respondents from a question on the survey they were provided. Our project is evaluating the quality of life of Asian Americans and factors that contribute to that. Our data set will show why the quality of life may change based upon different variables and why it is significant.
-
-# Goals for Project
-
-Some goals of our project include exploring what factors influence economic well-being in Asian American populations. We examine relationships between income and education, English proficiency and religion. Using visualizations and data modeling we would like to determine how these variables are related and if we can infer why see differences between groups.
+The dataset we are examining contains survey data on the fastest-growing minority group in the United States, Asian Americans. Within this dataset, the broad term includes individuals with origins in the Far East, Southeast Asia, or the Indian subcontinent. The Final Report of the Asian American Quality of Life (AAQoL) comes from a survey completed by the city of Austin, TX from August 19 to December 12, 2015 (Jang 2016, 12). It includes 2,609 observations each corresponding to an individual survey. There are 231 columns in the dataset, each representing the various questions respondents were asked to fill out when taking the survey.
 
 
+# Hypothesis 1: Income Bracket v.s. Education vs. Ethnicity
 
-Hypothesis 1:
-
-Income Bracket v.s. Education vs. Ethnicity
 We predict a variation in educational attainment amongst the different types of Asian ethnicities. We also expect to see a positive general relationship between education and income.
-# Hypothesis 1 Visualization
 
-```{R}
+```{r, echo = FALSE, message=FALSE, warning=FALSE, error=FALSE}
 # Import the dataset into R environment.
 library(ggplot2)
 library(dplyr)
@@ -56,12 +50,11 @@ test3 %>% filter(Ethnicity != "Other", Student != "Student", Retired != "Retired
 labs(x = "Household Income Bracket", y = "Mean Education Completed")
 ```
 
-Hypothesis 2:
 
-Income Bracket v.s. English Proficiency 
+# Hypothesis 2: Income Bracket v.s. English Proficiency 
 We predict that the level of English proficiency in the Asian American population will be positively related with their income bracket.
-# Hypothesis 2 Visualization
-```{R}
+
+```{R, echo = FALSE, message=FALSE, warning=FALSE, error=FALSE}
 
 library(tidyverse)
 library(extrafont)
@@ -98,35 +91,13 @@ df %>% ggplot(aes(x = Income, fill = Proficiency)) +
                     x = "Income Brackets",
                     y = "Percentage")
 
-# Redefining Age and Income for the second visualization
-df <- df %>%
-  mutate(Income5 = recode(Income, "$10,000 - $19,999" = "$10,000 - $29,999",
-                                  "$20,000 - $29,999" = "$10,000 - $29,999",
-                                  "$30,000 - $39,999" = "$30,000 - $49,999",
-                                  "$40,000 - $49,999" = "$30,000 - $49,999",
-                                  "$50,000 - $59,999" = "$50,000 - $69,999",
-                                  "$60,000 - $69,999" = "$50,000 - $69,999")) %>% # Recode Income into 5 categories
-  mutate(AgeCat = case_when(Age >= 18 & Age <= 30 ~ "Age 18-30 (n=302)",
-                            Age >= 31 & Age <= 40 ~ "Age 31-40 (n=344)",
-                            Age >= 41 & Age <= 55 ~ "Age 41-55 (n=414)",
-                            Age >= 55 ~ "Age 55+ (n=403)",
-                            TRUE ~ NA_character_)) # Create a categorical variable for age
-
-# Make sure each each gorup is evenly sized
-sum(df$AgeCat == "Age 18-30 (n=302)")
-sum(df$AgeCat == "Age 31-40 (n=344)")
-sum(df$AgeCat == "Age 41-55 (n=414)")
-sum(df$AgeCat == "Age 55+ (n=403)")
-
 
 ```
 
-Hypothesis 3:
-
-Income Bracket v.s. Religion
+# Hypothesis 3: Income Bracket v.s. Religion
 We predict that income brackets will vary based on religion and that individuals identifying as Hindu have the highest percentage of top earners on average. 
-# Hypothesis 3 Visualization
-```{r}
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, error=FALSE}
 IncomeBasedOnReligion <- AAQoL %>% 
   select(Income, Religion) %>% 
   na.omit() %>% 
@@ -139,14 +110,6 @@ totalresp <- AAQoL %>% select(Income, Religion) %>%
   summarize(total_responses = n())
 
 IncomeBasedOnReligionFinal <- merge(IncomeBasedOnReligion, totalresp, by = "Religion") %>% mutate(percentage = n / total_responses * 100)
-
-ggplot(IncomeBasedOnReligionFinal, aes(x = Religion, y = percentage, fill = Income)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Percentage of People in Each Religion Group by Income",
-       x = "Income",
-       y = "Percentage") +
-  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
-  theme_minimal()
 
 #V1 with labels
 
@@ -161,31 +124,14 @@ ggplot(IncomeBasedOnReligionFinal, aes(x = Religion, y = percentage, fill = Inco
   scale_y_continuous(labels = scales::percent_format(scale = 1)) +
   theme_minimal()
 
-
-#V2
-
-IncomeBasedOnReligionFinal1 <- IncomeBasedOnReligionFinal
-
-Income_level <- c("$70,000 and over", "$60,000 - $69,999", "$50,000 - $59,999", "$40,000 - $49,999", "$30,000 - $39,999", "$20,000 - $29,999", "$10,000 - $19,999", "$0 - $9,999")
-
-IncomeBasedOnReligionFinal1 <- IncomeBasedOnReligionFinal1 %>% mutate(Income = factor(Income, levels = Income_level))
-
-ggplot(IncomeBasedOnReligionFinal1, aes(x = Religion, y = percentage, fill = Income)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Percentage of People in Each Religion Group by Income",
-       x = "Income",
-       y = "Percentage") +
-  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
-  theme_minimal()
 ```
 
 
-Hypothesis 4:
+#Hypothesis 4: Employment Status v.s. Sense of Belonging
 
-Employment Status v.s. Sense of Belonging
 We predict that those who are employed full-time will have greater levels of belonging and those who are unemployed will have lower levels of belonging.
-#Hypothesis 4 Visualization
-```{r}
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE, error=FALSE}
 BelongingAndFullTimeEmployment <- AAQoL %>% 
   select(Belonging, Full.Time.Employment, Part.Time.Employment, Student, Homemaker) %>% 
   na.omit() %>% mutate(Employment = if_else(Full.Time.Employment != "0", Full.Time.Employment, Part.Time.Employment)) %>% 
